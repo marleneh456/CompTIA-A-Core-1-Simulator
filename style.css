@@ -1,0 +1,194 @@
+*{box-sizing:border-box}body{margin:0;font-family:'Century Gothic','Trebuchet MS',Arial,sans-serif;color:#151515;background:white}header{height:110px;background:#ff4247;color:white;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,3vw,43px);letter-spacing:2px;text-align:center}#change{position:absolute;left:20px;top:18px;background:#222;color:white;border:0;border-radius:3px;padding:10px 35px;font-size:16px}.shell{display:flex;min-height:calc(100vh - 110px)}aside{background:#f4f4f4;width:250px;border-right:3px solid #555;flex-shrink:0;padding:12px}aside button{display:block;width:100%;border:0;background:transparent;font-size:25px;padding:20px 8px;color:#888;cursor:pointer}aside button.active{color:#111}main{padding:30px;flex:1;max-width:1200px;margin:auto}h1{font-size:38px;font-weight:500;letter-spacing:1px}h2{font-weight:500}.line{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;gap:15px;font-size:22px}.line input{width:28px;height:28px;accent-color:#222}.actions{display:flex;gap:5px;margin-top:25px;flex-wrap:wrap}button{cursor:pointer}button.primary{background:#222;color:white;border:0;border-radius:3px;padding:12px 22px;font-size:20px;flex:1}button.secondary{background:#eee;color:#222;border:1px solid #aaa;padding:12px 18px;border-radius:3px;font-size:18px}button:disabled{opacity:.35;cursor:not-allowed}.muted{color:#777}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.stat{background:#f5f5f5;padding:22px;border-radius:8px}.stat strong{font-size:30px;display:block}.questionbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:21px}.questionbar button{font-size:28px;border:0;background:transparent}.question{font-size:clamp(20px,2.3vw,30px);line-height:1.5;margin:34px 0 25px;white-space:pre-wrap}.choice{display:block;padding:16px 20px;margin:9px 0;border:2px solid transparent;border-radius:8px;font-size:20px;cursor:pointer;background:#f7f7f7}.choice:has(input:checked){border-color:#333;background:#eaeaea}.choice input{margin-right:14px;accent-color:#222;transform:scale(1.25)}.correct{border-color:#25965b!important;background:#e5faed!important}.wrong{border-color:#d64a4a!important;background:#fff0f0!important}.review{background:#f4f4f4;padding:18px;border-left:5px solid #222;margin:18px 0;line-height:1.6;white-space:pre-wrap}.pbqimage{max-width:100%;max-height:650px;object-fit:contain;border:1px solid #ddd}.dropzone{border:2px dashed #777;border-radius:8px;min-height:60px;padding:12px;margin:10px 0;background:#f7f7f7}.chip{display:inline-block;background:#222;color:white;padding:12px;border-radius:5px;margin:6px;cursor:grab}.chip.selected{background:#ff4247}.pill{display:inline-block;padding:6px 12px;background:#eee;border-radius:20px;margin:5px}select,input[type=number]{padding:12px;font-size:18px;max-width:100%}#notice{color:#aa2727}table{width:100%;border-collapse:collapse}td,th{text-align:left;border-bottom:1px solid #ddd;padding:12px}@media(max-width:700px){header{height:90px;padding-left:100px;font-size:20px}.shell{display:block}aside{width:100%;border-right:0;display:flex;padding:0;overflow:auto}aside button{font-size:16px;padding:12px}main{padding:18px}.questionbar{font-size:17px}.questionbar button{font-size:22px}h1{font-size:28px}#change{padding:8px;left:8px}}
+
+.pause-tag{display:inline-block;margin-left:12px;padding:3px 10px;background:#fff1ce;color:#664700;border:1px solid #dbbb69;border-radius:6px;font-size:15px;font-weight:700;vertical-align:middle}
+
+/* Inline question navigator: never replaces the question display. */
+.navigator-panel{border:1px solid #dedede;border-radius:10px;padding:18px;margin:18px 0 22px;background:#fafafa}
+.navigator-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.navigator-head h2{margin:0;font-size:1.35rem}
+.navigator-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(49px,1fr));gap:8px;max-height:265px;overflow-y:auto;padding:3px}
+.nav-number{min-height:45px;border:1px solid #c8c8c8;background:white;border-radius:6px;font-size:16px;cursor:pointer;color:#222}
+.nav-number.answered{background:#d4f4df;border-color:#77c995}.nav-number.bookmarked{background:#fff1c6;border-color:#e2b65a}
+.nav-number.current{outline:3px solid #242424;outline-offset:-3px;font-weight:700}.nav-number:disabled{opacity:.6;cursor:not-allowed}
+@media(max-width:600px){.navigator-panel{padding:10px}.navigator-grid{grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:5px}}
+
+/* Printer PBQ 346: dropdowns directly on original printer illustration. */
+.printer-stage{position:relative;width:min(100%,760px);aspect-ratio:760/790;margin:12px 0 20px}
+.printer-stage img{width:100%;height:100%;object-fit:fill;display:block}
+.printer-slot{position:absolute;width:33%;display:block}
+.printer-slot select{width:100%;min-width:0;font-size:clamp(11px,1.5vw,17px);padding:8px 3px;background:#fff;border:2px solid #333;border-radius:4px}
+.printer-slot-0{left:6%;top:17%}.printer-slot-1{left:51%;top:26%}.printer-slot-2{left:6%;top:44%}.printer-slot-3{left:6%;top:62%}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@media(max-width:600px){.printer-slot select{padding:3px 1px;font-size:11px}.printer-slot{width:34%}}
+
+/* Workstation PBQ 345: original PDF diagrams with functional overlay dropdowns. */
+.workstation-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.selected-tab{background:#222!important;color:white!important}.workstation-stage{position:relative;width:min(100%,850px);aspect-ratio:1000/696}.workstation-stage img{display:block;width:100%;height:100%;object-fit:fill}.workstation-field{position:absolute;width:23%}.workstation-field select{width:100%;font-size:clamp(10px,1.4vw,15px);padding:5px;background:white;border:2px solid #333;border-radius:4px}.workstation-field-0{left:3%;top:32%}.workstation-field-1{left:21%;top:55%}.workstation-field-2{left:1%;top:74%}.workstation-field-3{left:14%;top:92%}.workstation-field-4{left:78%;top:7%}.workstation-field-5{left:78%;top:38%}@media(max-width:600px){.workstation-field select{padding:2px;font-size:10px}}
+
+/* Precise alignment to the four ORIGINAL boxes in 760 × 790 printer image. */
+.printer-stage{position:relative;width:min(100%,760px);aspect-ratio:760/790;margin:12px 0 20px}
+.printer-stage img{display:block;width:100%;height:100%;object-fit:fill}
+.printer-stage .printer-slot{position:absolute;display:block;width:40.3%;height:9.25%;box-sizing:border-box}
+.printer-stage .printer-slot-0{left:7.37%;top:20.25%}
+.printer-stage .printer-slot-1{left:59.21%;top:30.25%}
+.printer-stage .printer-slot-2{left:7.37%;top:53.80%}
+.printer-stage .printer-slot-3{left:7.37%;top:70.63%}
+.printer-stage .printer-slot select{display:block;box-sizing:border-box;width:100%;height:100%;min-width:0;margin:0;padding:0 24px 0 8px;background:#fff;border:2px solid #222;border-radius:4px;font-size:clamp(10px,1.65vw,18px);color:#111}
+.printer-stage .printer-slot.slot-correct select{border:4px solid #16803c;background:#e5f7e9}
+.printer-stage .printer-slot.slot-incorrect select{border:4px solid #c62828;background:#ffeded}
+.printer-stage .slot-status{position:absolute;right:1px;top:-23px;font-weight:bold;font-size:20px;background:#fff;padding:0 5px}
+.printer-stage .slot-correct .slot-status{color:#16803c}
+.printer-stage .slot-incorrect .slot-status{color:#c62828}
+@media(max-width:600px){.printer-stage .printer-slot select{font-size:10px;padding-left:3px;padding-right:13px}.printer-stage .slot-status{top:-18px;font-size:15px}}
+
+.voip-pbq{margin:20px 0;max-width:1100px}.voip-parts,.voip-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.voip-parts button,.voip-tabs button{padding:10px 14px;border:1px solid #aaa;border-radius:5px;cursor:pointer}.voip-active{background:#262626!important;color:white!important}.voip-layout{display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:12px}.voip-layout .voip-tabs{display:flex;flex-direction:column;align-items:stretch}.voip-terminal{background:#101010;color:#d5f5d5;padding:16px;border-radius:6px;min-width:0}.voip-caption{color:#b0dfef;font-weight:bold}.voip-terminal pre{white-space:pre-wrap;overflow-wrap:anywhere;min-height:160px;max-height:350px;overflow:auto;font:15px/1.5 monospace}.voip-terminal form{display:flex;align-items:center;gap:6px}.voip-terminal input{min-width:0;flex:1;background:#222;color:#fff;border:1px solid #777;padding:8px;font:15px monospace}.voip-terminal button{padding:8px}.voip-choice{display:block;padding:9px;margin:5px 0;background:#f5f5f5;border-radius:5px}.voip-choice input{margin-right:12px}@media(max-width:650px){.voip-layout{grid-template-columns:1fr}.voip-layout .voip-tabs{flex-direction:row}}
+
+.q341{max-width:1080px}.q341-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.q341-tabs button{padding:12px;border:1px solid #bbb;border-radius:5px}.q341-tabs .active{background:#222;color:#fff}.q341-wire-grid{display:grid;gap:12px}.q341-wire{display:grid;grid-template-columns:minmax(130px,1fr) minmax(140px,2fr) minmax(130px,1fr);gap:12px;align-items:center;border:1px solid #ddd;border-radius:8px;padding:14px}.q341-wire select,.q341-device select{width:100%;padding:10px;background:white;border:1px solid #999;border-radius:4px}.q341-wire small{display:block;margin-bottom:7px}.q341-cable-img{width:100%;height:80px;object-fit:cover;object-position:center}.q341-cable-0{object-position:center 15%}.q341-cable-1{object-position:center 49%}.q341-cable-2{object-position:center 85%}.q341-device-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:20px 0}.q341-device{padding:15px;border:2px solid #e3ad28;border-radius:6px}.q341-device label{display:block;font-weight:bold;margin-bottom:10px}.q341-ref{display:block;max-width:100%;width:min(100%,850px);height:auto;margin:16px 0}@media(max-width:650px){.q341-wire{grid-template-columns:1fr}.q341-device-grid{grid-template-columns:1fr}}
+
+.q340{max-width:1000px}.q340-cables{display:grid;gap:14px}.q340-cable-row{display:grid;grid-template-columns:minmax(170px,1fr) minmax(130px,1fr) minmax(170px,1fr);align-items:center;gap:12px;border:1px solid #ddd;padding:15px;border-radius:8px}.q340-cable-row select{display:block;width:100%;margin-top:8px}.q340-cable-visual{text-align:center;white-space:nowrap;overflow:hidden;color:#555}.q340-network-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.q340-network-grid label{border:1px solid #ddd;padding:14px;border-radius:6px}.q340-network-grid select{display:block;width:100%;margin-top:8px}.q340-ref{max-width:100%;display:block;margin:15px auto;border:1px solid #ddd}@media(max-width:680px){.q340-cable-row{grid-template-columns:1fr}.q340-network-grid{grid-template-columns:1fr}}
+
+/* Q343 device troubleshooting */
+.q343{margin:1.5rem 0}.q343-ref{width:100%;max-width:950px;height:auto;display:block;margin:12px auto}.q343-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:20px 0}.q343-device{border:1px solid #b9c5d0;border-radius:12px;padding:15px;background:var(--card,#fafafa);color:#202020}.q343-device h3{font-size:1.02rem;margin:0 0 12px}.q343-device label{display:block;margin:10px 0;font-size:.9rem}.q343-device select{display:block;width:100%;max-width:100%;padding:9px;margin-top:5px;background:white;color:#222;border:1px solid #8997a8;border-radius:6px}.q343-result p{font-size:.9rem;line-height:1.4}.q343-good{color:#087437}.q343-bad{color:#b51c28}.q343 details{margin:12px 0}.q343 summary{cursor:pointer;font-weight:600}
+
+.q340-diagram{position:relative;width:100%;max-width:900px;margin:16px auto}.q340-diagram>img{display:block;width:100%;height:auto}.q340-overlay{position:absolute;transform:translate(-50%,-50%);width:17%;z-index:2}.q340-overlay select{width:100%;font-size:clamp(8px,1.25vw,13px);padding:3px 1px;min-height:24px;background:#fff;border:1px solid #548da9;border-radius:3px}.q340-overlay:nth-of-type(even) select{border-color:#b49b42}.q340-port{width:14%}.q340-port select{font-size:clamp(8px,1vw,11px);padding:2px 0;min-height:22px}@media(max-width:600px){.q340-overlay select{font-size:8px;min-height:19px}.q340-port{width:16%}}
+
+.q344-image{display:block;width:100%;max-width:850px;height:auto;margin:16px auto;border:1px solid #ddd}.q344-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.q344-active{background:#222!important;color:white!important}.q344-terminal{background:#151c25;color:#d5f5e3;padding:18px;border-radius:8px}.q344-terminal pre{white-space:pre-wrap;font-family:monospace;line-height:1.7}.q344-remediation{margin:18px 0;padding:16px;border:1px solid #ddd;border-radius:8px}.q344-remediation label{display:grid;gap:8px}.q344-remediation input{padding:12px;font-size:18px;max-width:380px}
+
+.q348{margin:20px 0}.q348-diagram{display:block;width:100%;max-width:940px;height:auto;object-fit:contain;margin:16px 0;border:1px solid #ddd}.q348-fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin:18px 0}.q348-fields label{display:flex;flex-direction:column;gap:9px}.q348-fields select{padding:12px;font-size:1rem;max-width:100%}
+
+/* Image-based PBQ 340 controls, with artwork cropped from the supplied PDF diagrams. */
+.q340-overlay{z-index:4}.q340-imagepicker{position:relative;width:100%}.q340-img-trigger{width:100%;height:38px!important;min-height:0!important;padding:2px!important;border:1px solid #5595b5!important;border-radius:3px;background:#fff!important;display:flex;align-items:center;justify-content:center;cursor:pointer}.q340-img-trigger img{max-width:96%;max-height:33px;object-fit:contain}.q340-plus{font-size:21px;font-weight:bold;color:#397eaa}.q340-img-menu{position:absolute;left:0;top:100%;width:max-content;min-width:100%;max-width:240px;background:#fff;border:2px solid #7891a6;box-shadow:0 6px 18px #0005;z-index:40;display:grid;grid-template-columns:repeat(2,minmax(60px,1fr));gap:3px;padding:5px}.q340-img-menu[hidden]{display:none}.q340-img-menu button{background:#fff;border:1px solid #ccc;padding:4px;height:53px;cursor:pointer}.q340-img-menu button:hover{background:#e7f3ff}.q340-img-menu img{width:100%;height:40px;object-fit:contain}.q340-none{font-size:25px}.q340-diagram{overflow:visible}@media(max-width:600px){.q340-img-trigger{height:25px!important}.q340-img-trigger img{max-height:21px}.q340-img-menu{grid-template-columns:repeat(2,55px)}}
+
+/* Q340: precise image-slot placement and visible icon picker */
+.q340-overlay:has(.q340-img-menu:not([hidden])){z-index:100!important}
+.q340-img-menu{z-index:101!important;min-width:165px;max-width:245px;grid-template-columns:repeat(2,minmax(75px,1fr))}
+.q340-img-menu button{height:76px!important;min-height:76px!important;padding:5px!important}
+.q340-img-menu img{height:62px!important;max-height:62px!important;width:100%!important;object-fit:contain}
+.q340-img-trigger img{max-height:34px!important;max-width:100%!important}
+.q340-overlay:has(.q340-img-menu) {width:15%}
+.q340-port{width:13%!important}
+@media(max-width:600px){.q340-img-menu{min-width:140px;grid-template-columns:repeat(2,65px)}.q340-img-menu button{height:65px!important;min-height:65px!important}.q340-img-menu img{height:50px!important}}
+
+.q349-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:1000px;margin:20px 0}.q349-column{border:1px solid #d6d6d6;padding:9px;background:white;min-width:0}.q349-column h3{font-size:16px;text-align:center;margin:0 0 10px;padding:12px 2px;border-bottom:1px solid #ddd}.q349-palette h3{background:#0879ed;color:white}.q349-column label{display:block;font-size:13px;min-height:56px}.q349-column select{width:100%;font-size:13px;padding:5px}.q349-source-spacer{height:56px}.q349-slot{height:68px;border:1px solid #aaa;margin:8px 0;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;background:#fff}.q349-slot img,.q349-token img{width:100%;height:100%;object-fit:contain}.q349-empty{color:#c9a728;font-size:24px}.q349-token{height:68px;margin:8px 0;border:1px solid #aaa;cursor:grab;background:#eee}.q349-selected{outline:3px solid #0a82f5}.q349-clear{position:absolute;right:0;top:0;border:0;background:#fff;color:#b11;font-size:17px;cursor:pointer;padding:0 6px}@media(max-width:650px){.q349-board{gap:3px}.q349-column{padding:3px}.q349-column h3{font-size:11px}.q349-slot,.q349-token{height:54px}.q349-column select{font-size:10px;padding:2px}}
+
+.q344-guide{border:1px solid #d6dce3;border-radius:10px;padding:14px 20px;margin:18px 0;background:#f8fafc;color:#17212b}.q344-guide h3{margin:12px 0 6px;font-size:1.05rem}.q344-guide ol{padding-left:23px;margin:7px 0 15px}.q344-guide li{margin:6px 0;line-height:1.5}.q344-guide code{background:#e8edf3;border-radius:3px;padding:2px 5px}
+
+/* Q344: Windows Command Prompt styling */
+.q344-win-cmd{border:1px solid #8c8c8c;background:#0c0c0c;margin:16px 0;box-shadow:0 5px 20px #0002;border-radius:6px;overflow:hidden}.q344-win-title{height:39px;background:#f4f4f4;color:#171717;display:flex;align-items:center;gap:10px;padding:0 12px;font:14px 'Segoe UI',Arial,sans-serif}.q344-win-icon{background:#202020;color:white;font:12px Consolas,monospace;padding:3px 5px}.q344-window-controls{margin-left:auto;color:#444}.q344-console{background:#0c0c0c;color:#e8e8e8;min-height:280px;padding:15px 18px;font:16px/1.42 Consolas,'Courier New',monospace;overflow:auto}.q344-console-lines{white-space:normal}.q344-cmd-entry{margin-top:10px}.q344-cmd-result{white-space:pre-wrap;margin:6px 0 0}.q344-prompt{display:flex;align-items:center;gap:0;white-space:nowrap;margin-top:12px}.q344-prompt label{color:#eee;font:inherit}.q344-prompt input{background:transparent!important;border:0!important;box-shadow:none!important;color:white!important;font:inherit!important;min-width:90px;flex:1;padding:0!important;outline:0!important}.q344-cmd-hint{background:#f3f5f8;color:#333;padding:12px 16px;margin:0;font-size:14px}.q344-cmd-hint code{background:#e4e8ee;padding:2px 5px}
+
+/* Q345: align selection controls with printed family workstation fields */
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field-0{left:2.7%;top:37.8%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field-1{left:18.4%;top:59.4%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field-2{left:0.5%;top:75.8%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field-3{left:12.8%;top:92.8%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field-4{left:70%;top:15.2%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field-5{left:70%;top:43.1%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field{width:19%}
+.workstation-stage:has(img[src*="workstation_family"]) .workstation-field select{font-size:clamp(10px,1.25vw,14px);padding:3px}
+.q344-compare{width:100%;border-collapse:collapse;font-size:clamp(12px,1.6vw,17px);margin:14px 0}.q344-compare th,.q344-compare td{border:1px solid #bbb;padding:10px 7px;text-align:left;overflow-wrap:anywhere}.q344-compare th{background:#e9edf3;color:#171717}.q344 .actions{flex-wrap:wrap}.q344 .actions button{min-width:155px}
+
+.q351-stage{position:relative;max-width:1054px;width:100%;margin:16px auto}.q351-background{display:block;width:100%;height:auto}.q351-slot{position:absolute;left:56%;width:22%;height:7.4%;border:2px solid #2878b2;background:#fffdf3dd;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}.q351-slot-0{top:13%}.q351-slot-1{top:45%}.q351-slot-2{left:36%;top:66%}.q351-slot-3{left:36%;top:80%}.q351-slot img{width:100%;height:100%;object-fit:fill}.q351-slot span{font-size:1.6rem;color:#2878b2}.q351-right{border-color:#168346}.q351-wrong{border-color:#c93636}.q351-palette{margin:12px 0;padding:12px;border:1px solid #bbb}.q351-items{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.q351-token{padding:3px;background:#fff;border:2px solid #ddd;cursor:grab}.q351-token img{width:135px;max-width:100%;height:auto;display:block}.q351-picked{border-color:#1976d2;background:#e9f5ff}
+
+.q342-overview{display:block;max-width:100%;height:auto;margin:12px auto;border:1px solid #d7e1ec}.q342-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.q342-bay{border:1px solid #92bce7;background:#e9f2ff;padding:14px;border-radius:7px}.q342-baytitle{background:#0679f5;color:white;font-weight:bold;margin:-14px -14px 12px;padding:12px}.q342-drive{padding:12px 0}.q342-bay select{width:100%;padding:9px;margin-top:7px}.q342 h3{margin-top:25px}@media(max-width:620px){.q342-grid{grid-template-columns:1fr}}
+
+.q341-stage{position:relative;width:100%;max-width:950px;margin:16px auto}.q341-stage>img{display:block;width:100%;height:auto}.q341-overlay{position:absolute;transform:translate(-50%,-50%);width:13%;height:20%;max-height:100px;min-height:45px;border:2px solid #d9a52a;background:#fffef5;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:3px;border-radius:4px}.q341-overlay img{max-width:100%;max-height:100%;object-fit:contain}.q341-overlay b{font-size:26px;color:#b78208}.q341-overlay.selected{outline:3px solid #2489df}.q341-picker{border:2px solid #6b9cc6;padding:12px;margin:12px 0;background:#f7fbff}.q341-picker-head{display:flex;justify-content:space-between;align-items:center;font-weight:bold}.q341-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.q341-options button{min-height:100px;background:white;border:1px solid #bbb;cursor:pointer;padding:6px}.q341-options button img{height:88px;max-width:100%;object-fit:contain}.q341-options button:hover{border-color:#137ac7;background:#edf7ff}@media(max-width:600px){.q341-overlay{min-height:28px;height:18%}.q341-options{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.q341-result{border-top:1px solid #bbb;padding:10px 0}.q341-ok>b{color:#087c37}.q341-bad>b{color:#a12b25}.q341-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:7px}.q341-compare span{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.q341-compare img{width:52px;height:52px;object-fit:contain}@media(max-width:550px){.q341-compare{grid-template-columns:1fr}}
+
+.q347-neighbors img{max-width:430px;width:100%;height:auto;display:block;margin:12px auto}.q347-panel{border:2px solid #a5cdb6;background:white;margin:18px 0}.q347-header{background:#b9dfca;padding:16px;font-weight:bold}.q347-tabs{display:flex;flex-wrap:wrap;background:#b9dfca;gap:5px;padding:5px}.q347-tabs button{border:0;background:#b9dfca;color:#14659a;padding:12px;font-weight:bold;cursor:pointer}.q347-tabs button.active{background:white;color:#333}.q347-fields{padding:20px;min-height:300px}.q347-fields label{display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #eee;padding:12px 0}.q347-fields input:not([type=checkbox]),.q347-fields select{width:55%;max-width:390px;padding:9px}.q347-fields input[type=checkbox]{width:19px;height:19px}.q347-good{color:#067e35}.q347-wrong{color:#a12626}@media(max-width:580px){.q347-fields label{flex-wrap:wrap}.q347-fields input:not([type=checkbox]),.q347-fields select{width:100%}}
+
+.q347-mac-row label{display:flex;justify-content:flex-start;align-items:center;gap:16px;cursor:pointer}.q347-mac-row label input[type=checkbox]{flex:0 0 19px;margin:0}.q347-mac-row label span{display:inline-block;text-align:left;overflow-wrap:anywhere}.q347-mac-row{max-width:100%}
+
+/* Question 347: original-layout dropdown and full-width device rows */
+.q347 .q347-fields{padding:20px 26px}.q347 .q347-fields>label{display:grid;grid-template-columns:minmax(180px,40%) minmax(0,1fr);align-items:center;gap:14px;min-height:65px}.q347 .q347-fields>label input[type=checkbox]{justify-self:start}.q347 .q347-fields>label input:not([type=checkbox]),.q347 .q347-fields>label select{width:100%;max-width:none;min-width:0;box-sizing:border-box}.q347-filter-select{padding:14px 0;border-bottom:1px solid #eee}.q347-filter-select select{display:block;width:100%;max-width:none;box-sizing:border-box;min-width:0;padding:12px;font-size:inherit}.q347 .q347-mac-row{border-bottom:1px solid #eee;width:100%}.q347 .q347-mac-row label{display:flex!important;flex-direction:row!important;justify-content:flex-start!important;align-items:center!important;gap:18px!important;width:100%;box-sizing:border-box;padding:14px 0!important;min-height:65px}.q347 .q347-mac-row label input[type=checkbox]{flex:0 0 20px;min-width:20px;margin:0}.q347 .q347-mac-row label span{display:inline-block;flex:1;min-width:0;overflow-wrap:anywhere;white-space:normal;text-align:left}.q347 .q347-tabs{gap:0}.q347 .q347-tabs button{white-space:normal}.q347 .q347-fields label{font-size:inherit}@media(max-width:600px){.q347 .q347-fields>label{grid-template-columns:1fr}.q347 .q347-mac-row label{flex-wrap:nowrap!important}}
+
+/* Question 350 — Windows Command Prompt presentation */
+.voip-instructions{background:#f5f7fa;border-left:4px solid #3478c0;padding:14px 20px;margin:14px 0;line-height:1.55}
+.voip-instructions ol{padding-left:24px}.voip-instructions li{margin:7px 0}
+.voip-terminal{background:#0c0c0c;padding:0;border-radius:6px;overflow:hidden;border:1px solid #333;box-shadow:0 8px 24px #0002;color:#e9e9e9}
+.win-titlebar{background:#f1f1f1;color:#202020;display:flex;gap:12px;align-items:center;padding:9px 12px;font:13px 'Segoe UI',Arial,sans-serif}
+.win-app-icon{background:#202020;color:white;padding:3px 5px;font:bold 11px Consolas,monospace}
+.win-window-controls{margin-left:auto;white-space:nowrap;color:#555}
+.win-terminal-body{padding:16px;background:#0c0c0c;min-height:340px;font:15px/1.5 Consolas,'Courier New',monospace}
+.win-version{margin-bottom:20px;color:#eee}.win-note{color:#9aa6b4;font-size:12px}
+.win-terminal-body pre{white-space:pre-wrap;overflow-wrap:anywhere;min-height:160px;max-height:420px;overflow:auto;color:#eee;font:15px/1.5 Consolas,'Courier New',monospace}
+.win-terminal-body form{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.win-terminal-body form label{color:#eee;font:14px Consolas,'Courier New',monospace}
+.win-terminal-body input{flex:1;min-width:170px;background:transparent;color:white;border:0;border-bottom:1px solid #777;outline:none;padding:6px;font:14px Consolas,'Courier New',monospace}
+.win-terminal-body input:focus{border-bottom-color:#74a9f0}
+.win-terminal-body button{background:#e5e5e5;color:#111;border:1px solid #999;border-radius:3px;padding:6px 14px}
+
+/* Q341 Part 1: match original diagram's 136px response areas at 1099x637. */
+.q341-stage:has(img[src$="question341_reference_1.png"]) .q341-overlay{width:12.35%;height:21.35%;max-height:none;min-height:0;box-sizing:border-box;border-radius:4px;}
+.q341-stage:has(img[src$="question341_reference_1.png"]) .q341-overlay b{font-size:clamp(17px,3vw,27px)}
+
+/* Q340: compact, diagram-aligned picture selections and fully labeled choices. */
+.q340 .q340-diagram{max-width:765px;width:100%;margin:18px auto;overflow:visible}
+.q340 .q340-overlay:has(.q340-img-menu){width:18%;z-index:5}
+.q340 .q340-port:has(.q340-img-menu){width:11.5%!important}
+.q340 .q340-img-trigger{height:clamp(29px,5.5vw,48px)!important;min-height:0!important;padding:2px 3px!important;display:flex;flex-direction:row;gap:4px;overflow:hidden}
+.q340 .q340-img-trigger img{width:34%;max-height:37px!important;object-fit:contain}
+.q340 .q340-choice-label{font-size:clamp(8px,1.25vw,12px);line-height:1.1;overflow-wrap:anywhere;color:#111;text-align:center;flex:1}
+.q340 .q340-tool-slot .q340-img-trigger{border-color:#d4a332!important}
+.q340 .q340-img-menu{width:235px;max-width:235px;min-width:200px;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:5px}
+.q340 .q340-img-menu button{height:94px!important;min-height:94px!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:3px!important}
+.q340 .q340-img-menu img{height:55px!important;max-height:55px!important;width:95%!important;object-fit:contain}
+.q340 .q340-option-label{font-size:11px;line-height:1.12;color:#111;overflow-wrap:anywhere}
+.q340 .q340-overlay[style*="87.8"] .q340-img-menu,.q340 .q340-port[style*="71%"] .q340-img-menu{left:auto;right:0}
+@media(max-width:600px){.q340 .q340-overlay:has(.q340-img-menu){width:18%}.q340 .q340-port:has(.q340-img-menu){width:12%!important}.q340 .q340-img-trigger{height:clamp(22px,5.5vw,34px)!important}.q340 .q340-img-trigger img{max-height:25px!important}.q340 .q340-choice-label{font-size:7px}.q340 .q340-img-menu{width:190px;min-width:190px;grid-template-columns:repeat(2,1fr)}.q340 .q340-img-menu button{height:75px!important;min-height:75px!important}.q340 .q340-img-menu img{height:42px!important;max-height:42px!important}}
+/* Q340 Step 2: compact endpoint markers sized to the PDF's small socket boxes. */
+.q340 .q340-port:has(.q340-img-menu){width:8.1%!important}
+.q340 .q340-port .q340-img-trigger{height:clamp(20px,3.2vw,28px)!important;padding:1px!important;gap:1px!important;border-width:1px!important}
+.q340 .q340-port .q340-img-trigger img{width:31%!important;max-height:23px!important}
+.q340 .q340-port .q340-choice-label{font-size:clamp(6px,.72vw,9px)!important;line-height:1!important;overflow-wrap:normal!important;word-break:normal!important}
+.q340 .q340-port .q340-plus{font-size:15px}
+@media(max-width:600px){.q340 .q340-port:has(.q340-img-menu){width:9%!important}.q340 .q340-port .q340-img-trigger{height:20px!important}.q340 .q340-port .q340-choice-label{font-size:6px!important}}
+
+/* Q340: center compact selectors precisely on the original diagram slots. */
+.q340 .q340-overlay{transform:translate(-50%,-50%)!important}
+.q340 .q340-overlay:has(.q340-img-menu){width:13.5%!important}
+.q340 .q340-port:has(.q340-img-menu){width:7.5%!important}
+.q340 .q340-port .q340-img-trigger{height:clamp(19px,2.6vw,27px)!important}
+.q340 .q340-connector-slot .q340-img-trigger,.q340 .q340-tool-slot .q340-img-trigger{height:clamp(29px,4vw,43px)!important}
+.q340 .q340-img-menu{z-index:100;position:absolute}
+.q340 .q340-overlay{z-index:6}
+@media(max-width:600px){.q340 .q340-port:has(.q340-img-menu){width:8.5%!important}.q340 .q340-overlay:has(.q340-img-menu){width:14%!important}}
+
+.pbq-direct{margin-top:24px;padding-top:12px;border-top:1px solid #ddd}.pbq-direct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.pbq-direct-grid button{padding:10px 6px}
+
+.q342-right{border:2px solid #18884b}.q342-wrong{border:2px solid #bd3030}.q342-good{color:#147943}.q342-bad{color:#b52c2c}
+
+/* Q340: align each response to the right-hand side of its pictured socket. */
+.q340 .q340-connector-slot,.q340 .q340-tool-slot{width:13.5%!important}
+.q340 .q340-port{width:7.5%!important}
+.q340 .q340-diagram{overflow:visible}
+
+/* Revision 2: actual diagram coordinate updates, small overlays */
+.q340 .q340-connector-slot,.q340 .q340-tool-slot{width:12%!important}
+.q340 .q340-port{width:7%!important}
+
+/* Revision 3: align to actual original image slots (percent coordinates). */
+.q340 .q340-connector-slot,.q340 .q340-tool-slot{width:17.8%!important}
+.q340 .q340-port{width:8.3%!important}
+.q340 .q340-port .q340-img-trigger{height:clamp(20px,3.5vw,30px)!important}
+
+/* Q340 Step 2: compact selectors centered inside the eight yellow answer slots. */
+.q340-overlay.q340-port{width:7.5%!important;max-width:none!important}
+.q340-port .q340-img-trigger{height:clamp(22px,3.4vw,36px)!important;padding:1px!important}
+.q340-port .q340-choice-label{font-size:clamp(7px,.75vw,10px)!important;line-height:1.05;overflow-wrap:anywhere}
+.q340-port .q340-img-trigger img{max-width:33%!important;max-height:26px!important}
+
+/* Q340: connector orientation follows original PDF reference (not tool rotation).
+   Flip only the connector artwork, preserving readable text labels. */
+.q340 .q340-mirror .q340-img-trigger > img {transform:scaleX(-1)!important;}
+.q340 .q340-mirror .q340-img-menu button img {transform:scaleX(-1)!important;}
+
+/* Question 341 Part 2: show original wire illustration and descriptive label */
+.q341-options button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:120px}.q341-options button img{max-width:95%;max-height:75px;object-fit:contain}.q341-option-label{font-size:12px;line-height:1.25;text-align:center}
+
+.q342-inspector{border:2px solid #7c9cc5;border-radius:10px;padding:18px;margin:18px 0;background:#f4f8ff;color:#182c42}.q342-inspector .actions{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.q342-inspector-panel{background:white;border:1px solid #bdcfe1;padding:14px;border-radius:8px;overflow-x:auto}.q342-inspector table{width:100%;border-collapse:collapse}.q342-inspector th,.q342-inspector td{border:1px solid #c9d3df;padding:8px;text-align:left}
+
+.q342-status-window{margin:18px 0;border:3px solid #0878f9;background:#d8eafb;box-shadow:0 2px 6px #7775}.q342-status-header{background:#0878f9;color:white;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;font-size:23px}.q342-status-header button{font-size:25px;background:#fff;color:#0878f9;border:2px solid #175eab;border-radius:5px;cursor:pointer}.q342-status-body{padding:14px;overflow-x:auto}.q342-status-body table{width:100%;border-collapse:separate;border-spacing:3px;background:white;font-size:14px}.q342-status-body th{background:#5399d3;color:white;padding:10px 6px}.q342-status-body td{background:#fff;padding:10px 6px;text-align:center;white-space:nowrap}.q342-status-body td small{display:block;font-size:11px}.q342-good{color:#116a2c}.q342-bad{color:#a51b1b}
+
+.q342-table-note{font-size:.9rem;margin:0 0 12px;color:#234b74}.q342-status-body{overflow-x:auto}.q342-status-body table{min-width:970px}.q342-status-body th:nth-last-child(-n+2),.q342-status-body td:nth-last-child(-n+2){min-width:145px}
+
+/* Q351: align selectable targets to original yellow boxes */
+.q351-slot{width:21%;height:7.5%;left:57.5%}.q351-slot-0{top:14.1%}.q351-slot-1{top:45.5%;left:56.2%}.q351-slot-2{top:66.7%;left:36.5%}.q351-slot-3{top:80.1%;left:36.5%}

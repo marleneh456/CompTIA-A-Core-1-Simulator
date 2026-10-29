@@ -22,7 +22,7 @@ function fmt(n){return `${Math.floor(n/3600)}:${String(Math.floor(n%3600/60)).pa
 function togglePause(){if(!exam.end)return;if(exam.paused){exam.end=Date.now()+exam.remaining;exam.paused=false}else{exam.remaining=Math.max(0,exam.end-Date.now());exam.paused=true}renderExam()}
 function bookmark(){if(exam.paused)return;let id=current().id;state.bookmarks=state.bookmarks.includes(id)?state.bookmarks.filter(x=>x!==id):[...state.bookmarks,id];save();renderExam()}
 function selectAnswer(key,multi){if(exam.paused)return;let q=current(),a=answer();if(exam.revealed[q.id])return;exam.answers[q.id]=multi?(a.includes(key)?a.filter(x=>x!==key):[...a,key]):[key];renderExam()}
-function renderExam(){if(!exam)return;let q=current(),a=answer(),rev=exam.revealed[q.id],isBook=state.bookmarks.includes(q.id);nav('');app.innerHTML=`<div class="questionbar"><div>QUESTION ${exam.index+1} / ${exam.items.length}<br><span id="clock">${exam.end?'TIME LEFT '+fmt(Math.max(0,Math.ceil(((exam.paused?Date.now()+exam.remaining:exam.end)-Date.now())/1000))):'UNTIMED'}</span></div><div><button title="Bookmark" onclick="bookmark()" style="color:${isBook?'#41cb63':'#555'}">${isBook?'🔖':'♧'}</button><button title="Pause timer" onclick="togglePause()">${exam.paused?'▶':'Ⅱ'}</button><button title="Toggle question navigator" aria-expanded="${navigatorOpen}" onclick="questionList()">☰</button><button title="Exit exam" aria-label="Exit exam" onclick="exitExam()">✕</button></div></div>${navigatorOpen?navigatorHTML():''}<div class="muted">${esc(D[q.domain-1]||'Unclassified')} · PDF Question ${q.id} · Page ${q.page}</div><div class="question">${esc(q.stem)}</div>${q.pbq?pbqHTML(q):''}${q.options.length?`<div>${q.options.map(o=>`<label class="choice ${rev?(q.answer.includes(o.key)?'correct':a.includes(o.key)?'wrong':''):''}"><input type="${q.answer.length>1?'checkbox':'radio'}" name="q" ${a.includes(o.key)?'checked':''} ${rev?'disabled':''} onchange="selectAnswer('${o.key}',${q.answer.length>1})"><b>${o.key}.</b> ${esc(o.text)}</label>`).join('')}</div>`:q.pbq&&![340,341,342,343,344,345,346,347,348,349,350,351].includes(q.id)?'<p class="muted">Use the interactive response workspace below. Complete the diagram and submit your selections. Some source diagrams require an independently verified key before a reliable score can be assigned.</p>':''}${rev&&![342,344].includes(q.id)?`<div class="review"><b>PDF answer:</b> ${q.answer.length?q.answer.join(', '):'Not provided in source'}<br><b>Your selection:</b> ${a.length?a.join(', '):'None'}<br><b>Explanation from PDF:</b> ${formatPdfExplanation(q.explanation||'No explanation supplied in the source PDF.')}</div>`:''}<div class="actions"><button class="secondary" onclick="move(-1)" ${exam.index===0?'disabled':''}>← Previous</button>${q.pbq?'':`<button class="secondary" onclick="reveal()">${rev?'Answer revealed':'Reveal Answer'}</button>`}<button class="primary" onclick="move(1)">${exam.index===exam.items.length-1?'Finish →':'Next →'}</button></div><div class="actions"><button class="secondary" onclick="finish(false)">Finish Exam</button></div>`;if(exam.paused){const clock=document.getElementById('clock');if(clock)clock.insertAdjacentHTML('afterend',' <span class="pause-tag">PAUSED</span>');app.querySelectorAll('input, select, .actions button, .dropzone button, .chip').forEach(el=>{if(el.matches('input,select,button'))el.disabled=true;else{el.style.pointerEvents='none';el.setAttribute('draggable','false')}})}updateClock()}
+function renderExam(){stopReading();if(!exam)return;let q=current(),a=answer(),rev=exam.revealed[q.id],isBook=state.bookmarks.includes(q.id);nav('');app.innerHTML=`<div class="questionbar"><div>QUESTION ${exam.index+1} / ${exam.items.length}<br><span id="clock">${exam.end?'TIME LEFT '+fmt(Math.max(0,Math.ceil(((exam.paused?Date.now()+exam.remaining:exam.end)-Date.now())/1000))):'UNTIMED'}</span></div><div><button class="speaker-button" title="Read question, choices, and PBQ instructions aloud" aria-label="Read question and answers aloud" onclick="toggleReading()">🔊 <span class="speaker-label">Listen</span></button><button title="Bookmark" onclick="bookmark()" style="color:${isBook?'#41cb63':'#555'}">${isBook?'🔖':'♧'}</button><button title="Pause timer" onclick="togglePause()">${exam.paused?'▶':'Ⅱ'}</button><button title="Toggle question navigator" aria-expanded="${navigatorOpen}" onclick="questionList()">☰</button><button title="Exit exam" aria-label="Exit exam" onclick="exitExam()">✕</button></div></div>${navigatorOpen?navigatorHTML():''}<div class="muted">${esc(D[q.domain-1]||'Unclassified')} · PDF Question ${q.id} · Page ${q.page}</div><div class="question">${esc(q.stem)}</div>${q.pbq?pbqHTML(q):''}${q.options.length?`<div>${q.options.map(o=>`<label class="choice ${rev?(q.answer.includes(o.key)?'correct':a.includes(o.key)?'wrong':''):''}"><input type="${q.answer.length>1?'checkbox':'radio'}" name="q" ${a.includes(o.key)?'checked':''} ${rev?'disabled':''} onchange="selectAnswer('${o.key}',${q.answer.length>1})"><b>${o.key}.</b> ${esc(o.text)}</label>`).join('')}</div>`:q.pbq&&![340,341,342,343,344,345,346,347,348,349,350,351].includes(q.id)?'<p class="muted">Use the interactive response workspace below. Complete the diagram and submit your selections. Some source diagrams require an independently verified key before a reliable score can be assigned.</p>':''}${rev&&![342,344].includes(q.id)?`<div class="review"><b>PDF answer:</b> ${q.answer.length?q.answer.join(', '):'Not provided in source'}<br><b>Your selection:</b> ${a.length?a.join(', '):'None'}<br><b>Explanation from PDF:</b> ${formatPdfExplanation(q.explanation||'No explanation supplied in the source PDF.')}</div>`:''}<div class="actions"><button class="secondary" onclick="move(-1)" ${exam.index===0?'disabled':''}>← Previous</button>${q.pbq?'':`<button class="secondary" onclick="reveal()">${rev?'Answer revealed':'Reveal Answer'}</button>`}<button class="primary" onclick="move(1)">${exam.index===exam.items.length-1?'Finish →':'Next →'}</button></div><div class="actions"><button class="secondary" onclick="finish(false)">Finish Exam</button></div>`;if(exam.paused){const clock=document.getElementById('clock');if(clock)clock.insertAdjacentHTML('afterend',' <span class="pause-tag">PAUSED</span>');app.querySelectorAll('input, select, .actions button, .dropzone button, .chip').forEach(el=>{if(el.matches('input,select,button'))el.disabled=true;else{el.style.pointerEvents='none';el.setAttribute('draggable','false')}})}updateClock()}
 function printer346HTML(q){
  const names=['Rollers','Duplexer','Ink cartridge','Toner','Fuser'];
  const placements=exam.placements[q.id]||{};
@@ -307,3 +307,55 @@ function q349HTML(){const st=q349State(),correct=q349Correct.every((col,i)=>st.s
 
 
 function formatPdfExplanation(value){return String(value).split(/\n\s*\n/).filter(Boolean).map(p=>'<p class="pdf-explanation-paragraph">'+esc(p)+'</p>').join('');}
+
+// Accessible audio reading for every question type and every exam mode.
+// Prefer an installed English female voice. Voice gender is not exposed reliably
+// by browser speech APIs, so this preference uses recognizable voice names.
+function preferredFemaleVoice(){
+  const voices=window.speechSynthesis.getVoices();
+  const english=voices.filter(v=>/^en(?:-|_)/i.test(v.lang));
+  const femaleNames=/\b(jenny|aria|zira|samantha|victoria|karen|moira|tessa|ava|allison|susan|hazel|serena|siri female|google us english female|female)\b/i;
+  return english.find(v=>femaleNames.test(v.name)) ||
+    english.find(v=>/microsoft (jenny|aria|zira)|google.*female/i.test(v.name)) || null;
+}
+let speechReading=false;
+function stopReading(){
+  if('speechSynthesis' in window){window.speechSynthesis.cancel()}
+  speechReading=false;
+  document.querySelectorAll('.speaker-button').forEach(b=>{b.setAttribute('aria-pressed','false');b.querySelector('.speaker-label')&&(b.querySelector('.speaker-label').textContent='Listen')});
+}
+function toggleReading(){
+  if(!('speechSynthesis' in window)){alert('Speech playback is not supported by this browser. Try an updated Chrome, Edge, or Safari browser.');return}
+  if(speechReading){stopReading();return}
+  if(!exam)return;
+  const q=current();
+  const chunks=[];
+  chunks.push('Question '+(exam.index+1)+'. '+q.stem);
+  if(q.options&&q.options.length){q.options.forEach(o=>chunks.push('Option '+o.key+'. '+o.text))}
+  if(q.pbq){
+    // Read instructions and labels from the actual interactive PBQ, without inventing descriptions of images.
+    const workspace=document.querySelector('.printer-pbq,.workstation-pbq,.voip-pbq,.pbq-direct,.question + section,.question ~ section');
+    const nodes=(workspace||document.querySelector('#app')).querySelectorAll('h2,h3,p,legend,label,option,.chip,.dropzone,button');
+    const seen=new Set();
+    nodes.forEach(el=>{
+      if(el.closest('.review,.actions,.navigator-panel'))return;
+      if(el.tagName==='OPTION'&&!el.selected)return;
+      if(el.tagName==='BUTTON'&&!el.closest('.dropzone'))return;
+      const t=(el.innerText||el.textContent||'').trim().replace(/\s+/g,' ');
+      if(t&&t.length<500&&!seen.has(t)){seen.add(t);chunks.push(t)}
+    });
+  }
+  const button=document.querySelector('.speaker-button');
+  speechReading=true;
+  if(button){button.setAttribute('aria-pressed','true');button.querySelector('.speaker-label').textContent='Stop'}
+  // Chunk utterances so browser engines don't silently truncate long PBQs.
+  const parts=chunks.filter(Boolean).flatMap(t=>t.match(/.{1,220}(?:\s|$)/g)||[t]);
+  let i=0;
+  function next(){if(!speechReading)return;if(i>=parts.length){speechReading=false;if(button&&button.isConnected){button.setAttribute('aria-pressed','false');button.querySelector('.speaker-label').textContent='Listen'}return}
+    const utterance=new SpeechSynthesisUtterance(parts[i++]);utterance.lang='en-US';utterance.rate=0.92;const femaleVoice=preferredFemaleVoice();if(femaleVoice){utterance.voice=femaleVoice;utterance.lang=femaleVoice.lang;}
+    utterance.onend=next;utterance.onerror=()=>{speechReading=false;if(button&&button.isConnected){button.setAttribute('aria-pressed','false');button.querySelector('.speaker-label').textContent='Listen'}};
+    window.speechSynthesis.speak(utterance);
+  }
+  next();
+}
+window.addEventListener('beforeunload',stopReading);

@@ -198,3 +198,5 @@
 
 /* Custom exam passing-score control */
 .custom-pass-row{display:flex;align-items:center;gap:14px;justify-content:flex-end}.custom-pass-row input[type=range]{width:min(55%,540px);accent-color:#111}.custom-pass-row output{font-weight:600;min-width:2ch;text-align:right}
+
+.review .pdf-explanation-paragraph{margin:0 0 1.05em;line-height:1.65;white-space:normal}.review .pdf-explanation-paragraph:last-child{margin-bottom:0}
